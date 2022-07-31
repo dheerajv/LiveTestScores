@@ -21,9 +21,9 @@ public class StudentTestResults {
     examScores.add(new ExamScore(score.getExam(), score.getScore()));
   }
 
-  public void add(Score score){
+  public void add(Score score) {
     examScores.add(new ExamScore(score.getExam(), score.getScore()));
-    sum+= score.getScore();
+    sum += score.getScore();
   }
 
   public String getStudentId() {
@@ -35,7 +35,9 @@ public class StudentTestResults {
   }
 
   public double getAvgScore() {
-    return sum/examScores.size();
+    return (null != examScores && examScores.size() > 0)
+        ? sum / examScores.size()
+        : 0.0;
   }
 
   public static class ExamScore {

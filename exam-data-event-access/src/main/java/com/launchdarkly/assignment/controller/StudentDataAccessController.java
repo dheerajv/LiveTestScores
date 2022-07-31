@@ -9,6 +9,8 @@ import com.google.gson.JsonParser;
 import com.launchdarkly.assignment.common.Constants;
 import com.launchdarkly.assignment.datastore.Score;
 import com.launchdarkly.assignment.datastore.ScoreCollection;
+import com.launchdarkly.assignment.response.ExamResults;
+import com.launchdarkly.assignment.response.Exams;
 import com.launchdarkly.assignment.response.StudentTestResults;
 import com.launchdarkly.assignment.response.Students;
 import org.json.JSONArray;
@@ -38,19 +40,18 @@ public class StudentDataAccessController {
   }
 
   @RequestMapping("/exams")
-  public String exams(){
-    JSONArray ja = new JSONArray();
-    for(int exam: scoreCollection.getAllExams())
-      ja.put(exam);
-
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    JsonElement je = JsonParser.parseString(ja.toString());
-    return gson.toJson(je);
+  public Set<Integer> exams(){
+    return new Exams(scoreCollection.getAllExams()).getExams();
 
   }
 
   @GetMapping(path="/students/{studentId}")
-  public StudentTestResults studentResults(@PathVariable String studentId) throws JsonProcessingException {
+  public StudentTestResults studentResults(@PathVariable String studentId) {
     return scoreCollection.getStudentResults(studentId);
+  }
+
+  @GetMapping(path="/exams/{examNumber}")
+  public ExamResults examResults(@PathVariable int examNumber) {
+    return scoreCollection.getExamResults(examNumber);
   }
 }

@@ -2,6 +2,7 @@ package com.launchdarkly.assignment.response;
 
 import com.launchdarkly.assignment.datastore.Score;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExamResults {
@@ -17,7 +18,8 @@ public class ExamResults {
 
   public ExamResults(int exam, Score score) {
     this.exam = exam;
-    this.studentScores = List.of(new StudentScore(score.getStudentId(), score.getScore()));
+    this.studentScores = new ArrayList<>();
+    studentScores.add(new StudentScore(score.getStudentId(), score.getScore()));
   }
 
   public void add(Score score){

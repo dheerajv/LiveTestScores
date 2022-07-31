@@ -51,30 +51,6 @@ public class StudentDataAccessController {
 
   @GetMapping(path="/students/{studentId}")
   public StudentTestResults studentResults(@PathVariable String studentId) throws JsonProcessingException {
-
     return scoreCollection.getStudentResults(studentId);
-
-
-    /*if(null == studentId)
-      return new JSONObject().put("Error","Provide a valid studentId").toString();
-
-    List<Score> studentResults = scoreCollection.getStudentResults(studentId);
-    JSONObject resultsJO = new JSONObject();
-    if(null != studentResults){
-      JSONArray resultJA = new JSONArray();
-
-      for(Score score: studentResults)
-        resultJA.put(score.toJsonObject());
-
-      resultsJO.put(Constants.RESULTS, resultJA);
-      resultsJO.put(Constants.AVG_SCORE, scoreCollection.getStudentAvgScore(studentId));
-    }
-
-
-    ObjectMapper mapper = new ObjectMapper();
-    // pretty print
-    String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(resultsJO);
-
-    return json;*/
   }
 }

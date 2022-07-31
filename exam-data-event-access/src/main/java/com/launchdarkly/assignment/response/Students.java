@@ -13,6 +13,6 @@ public class Students {
   }
 
   public Set<String> getStudents() {
-    return Collections.unmodifiableSet(students);
+    return students;
   }
 }

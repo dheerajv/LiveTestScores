@@ -21,5 +21,4 @@ public final class TestScoreEventData {
   public double getScore() {
     return score;
   }
-
 }

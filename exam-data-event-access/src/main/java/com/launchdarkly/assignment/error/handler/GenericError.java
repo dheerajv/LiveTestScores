@@ -1,6 +1,6 @@
 package com.launchdarkly.assignment.error.handler;
 
-public class GenericError {
+public final class GenericError {
   private final int errorCode;
   private final String errorMessage;
 

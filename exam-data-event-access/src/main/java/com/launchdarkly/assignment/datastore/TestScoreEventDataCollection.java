@@ -7,15 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-//lets make it singleton
-public class TestScoreEventDataCollection {
+//Singleton class - Event Data Storage
+public final class TestScoreEventDataCollection {
   private static final int MAX_ROWS = 1000;
+  private static TestScoreEventDataCollection scoreCollection = null;
   private final Map<String, StudentTestResults> studentResultsMap = new HashMap<>();
   private final Map<Integer, ExamResults> examResultsMap = new HashMap<>();
-
-  private static TestScoreEventDataCollection scoreCollection = null;
-  private TestScoreEventDataCollection(){
-  }
 
   public static TestScoreEventDataCollection getInstance(){
     if(null == scoreCollection)
@@ -25,7 +22,8 @@ public class TestScoreEventDataCollection {
   }
 
   public boolean add(TestScoreEventData testScoreEventData){
-
+    //Don't want to keep filling
+    //Can implement LRU cache to implement eviction policy for outdated event data
     if(studentResultsMap.size() == MAX_ROWS)
       return false;
 
@@ -47,16 +45,10 @@ public class TestScoreEventDataCollection {
   }
 
   public StudentTestResults getStudentResults(String studentId){
-    if(!studentResultsMap.containsKey(studentId))
-      return null;
-
     return studentResultsMap.get(studentId);
   }
 
   public ExamResults getExamResults(int exam){
-    if(!examResultsMap.containsKey(exam))
-      return null;
-
     return examResultsMap.get(exam);
   }
 

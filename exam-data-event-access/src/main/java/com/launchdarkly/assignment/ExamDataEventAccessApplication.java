@@ -15,7 +15,7 @@ public class ExamDataEventAccessApplication {
   private static void initialize() {
     try {
       DataFetcher df = new DataFetcher();
-      df.subscribeAndFetch();
+      df.subscribe();
 
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();

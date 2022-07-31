@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class GlobalControllerAdvice {
+public final class GlobalControllerAdvice {
 
   @ExceptionHandler(RestResponseException.class)
   public ResponseEntity<?> handleInvalidInput(RestResponseException exception){

@@ -1,19 +1,15 @@
 package com.launchdarkly.assignment.response.types;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.launchdarkly.assignment.datastore.TestScoreEventData;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentTestResults {
+public final class StudentTestResults {
   private final String studentId;
   private final List<ExamScore> examScores;
   private double sum = 0.0;
-
-  public StudentTestResults(String studentId, List<ExamScore> examScores) {
-    this.studentId = studentId;
-    this.examScores = examScores;
-  }
 
   public StudentTestResults(String studentId, TestScoreEventData testScoreEventData) {
     this.studentId = studentId;
@@ -26,14 +22,17 @@ public class StudentTestResults {
     sum += testScoreEventData.getScore();
   }
 
+  @JsonGetter("studentId")
   public String getStudentId() {
     return studentId;
   }
 
+  @JsonGetter("scores")
   public List<ExamScore> getExamScores() {
     return examScores;
   }
 
+  @JsonGetter("averageScore")
   public double getAvgScore() {
     return (null != examScores && examScores.size() > 0)
         ? sum / examScores.size()
@@ -49,10 +48,12 @@ public class StudentTestResults {
       this.score = score;
     }
 
+    @JsonGetter("exam")
     public int getExam() {
       return exam;
     }
 
+    @JsonGetter("score")
     public double getScore() {
       return score;
     }

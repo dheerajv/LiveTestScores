@@ -12,35 +12,29 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 public final class DataFetcher {
-
   private final Flux<ServerSentEvent<String>> dataStream;
   private Disposable subscription = null;
-  int processorNum = Runtime.getRuntime().availableProcessors();
-  ExecutorService executor = Executors.newFixedThreadPool(processorNum +1);
+  private final Queue<ServerSentEvent<String>> queue = new LinkedList<>();
+  private final ExecutorService executor = Executors.newFixedThreadPool(1);
 
-  Queue<ServerSentEvent<String>> queue = new LinkedList<>();
-
-  public DataFetcher(){
-    ParameterizedTypeReference<ServerSentEvent<String>> typeRef = new ParameterizedTypeReference<>(){};
+  public DataFetcher() {
+    ParameterizedTypeReference<ServerSentEvent<String>> typeRef = new ParameterizedTypeReference<>() {
+    };
     dataStream = WebClient
         .create(Constants.DATA_URI).get()
         .accept(MediaType.TEXT_EVENT_STREAM).retrieve().bodyToFlux(typeRef);
   }
 
-  public void subscribeAndFetch() throws InterruptedException {
-    subscription = dataStream.subscribe(sse -> queue.add(sse));
+  public void subscribe() throws InterruptedException {
+    subscription = dataStream.subscribe(queue::add);
     executor.execute(new DataProcessingTask(this, queue));
-    executor.shutdown();
-    while (!executor.awaitTermination(1, TimeUnit.HOURS)) {
-      System.out.println("Not yet. Still waiting for termination");
-    }
   }
 
-  public void unsubscribe(){
+  //Not sure if this is the correct way to unsubscribe server sent events
+  public void unsubscribe() {
     subscription.dispose();
+    executor.shutdown();
   }
-
 }

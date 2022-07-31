@@ -1,12 +1,9 @@
 package com.launchdarkly.assignment.controller;
 
-import com.launchdarkly.assignment.datastore.TestScoreEventDataCollection;
 import com.launchdarkly.assignment.error.handler.RestResponseException;
 import com.launchdarkly.assignment.operations.TestScoreOperations;
 import com.launchdarkly.assignment.response.types.ExamResults;
-import com.launchdarkly.assignment.response.types.Exams;
 import com.launchdarkly.assignment.response.types.StudentTestResults;
-import com.launchdarkly.assignment.response.types.Students;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Set;
-
 @RestController
-public class StudentDataAccessController {
-
+public final class StudentDataAccessController {
   TestScoreOperations testScoreOperations = new TestScoreOperations();
   @RequestMapping
   public String welcome(){

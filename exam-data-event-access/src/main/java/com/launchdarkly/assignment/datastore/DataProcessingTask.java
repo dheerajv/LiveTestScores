@@ -33,10 +33,10 @@ public class DataProcessingTask implements Runnable{
 
       JSONObject data = new JSONObject(sse.data()) ;
       int exam = data.getInt(Constants.EXAM);
-      String studentID = data.getString(Constants.STUDENT_ID);
+      String studentId = data.getString(Constants.STUDENT_ID);
       double score = data.getDouble(Constants.SCORE);
 
-      if(!scoreCollection.add(new Score(exam, studentID, score))){
+      if(!scoreCollection.add(new Score(exam, studentId, score))){
         dataFetcher.unsubscribe();
         System.out.println("All Students = " + scoreCollection.getAllStudents());
         System.out.println("All Exams = " + scoreCollection.getAllExams());

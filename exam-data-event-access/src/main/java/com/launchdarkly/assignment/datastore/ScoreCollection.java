@@ -48,18 +48,18 @@ public class ScoreCollection {
     return examResultsMap.keySet();
   }
 
-  public List<Score> getStudentResults(String studentID){
-    if(!studentResultsMap.containsKey(studentID))
+  public List<Score> getStudentResults(String studentId){
+    if(!studentResultsMap.containsKey(studentId))
       return null;
 
-    return studentResultsMap.get(studentID).getScoreList();
+    return studentResultsMap.get(studentId).getScoreList();
   }
 
-  public double getStudentAvgScore(String studentID){
-    if(!studentResultsMap.containsKey(studentID))
+  public double getStudentAvgScore(String studentId){
+    if(!studentResultsMap.containsKey(studentId))
       return 0.0;
 
-    return studentResultsMap.get(studentID).getAvg();
+    return studentResultsMap.get(studentId).getAvg();
   }
 
   public List<Score> getExamResults(int exam){
@@ -77,15 +77,15 @@ public class ScoreCollection {
   }
 
   private void populateStudentMap(Score score){
-    String studentID = score.getStudentID();
-    if(studentResultsMap.containsKey(studentID)){
-      var studentResults = studentResultsMap.get(studentID);
+    String studentId = score.getstudentId();
+    if(studentResultsMap.containsKey(studentId)){
+      var studentResults = studentResultsMap.get(studentId);
       studentResults.add(score);
 
     } else{
       Results results = new Results();
       results.add(score);
-      studentResultsMap.put(studentID, results);
+      studentResultsMap.put(studentId, results);
     }
   }
 

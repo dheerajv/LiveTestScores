@@ -52,13 +52,13 @@ public class StudentDataAccessController {
 
   }
 
-  @GetMapping(path="/students/{studentID}")
-  public String studentResults(@PathVariable String studentID) throws JsonProcessingException {
+  @GetMapping(path="/students/{studentId}")
+  public String studentResults(@PathVariable String studentId) throws JsonProcessingException {
 
-    if(null == studentID)
-      return new JSONObject().put("Error","Provide a valid studentID").toString();
+    if(null == studentId)
+      return new JSONObject().put("Error","Provide a valid studentId").toString();
 
-    List<Score> studentResults = scoreCollection.getStudentResults(studentID);
+    List<Score> studentResults = scoreCollection.getStudentResults(studentId);
     JSONObject resultsJO = new JSONObject();
     if(null != studentResults){
       JSONArray resultJA = new JSONArray();
@@ -67,7 +67,7 @@ public class StudentDataAccessController {
         resultJA.put(score.toJsonObject());
 
       resultsJO.put(Constants.RESULTS, resultJA);
-      resultsJO.put(Constants.AVG_SCORE, scoreCollection.getStudentAvgScore(studentID));
+      resultsJO.put(Constants.AVG_SCORE, scoreCollection.getStudentAvgScore(studentId));
     }
 
 

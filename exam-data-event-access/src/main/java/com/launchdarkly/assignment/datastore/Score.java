@@ -7,13 +7,13 @@ import org.json.JSONObject;
 
 public final class Score {
   private final int exam;
-  private final String studentID;
+  private final String studentId;
   private final double score;
   ObjectMapper mapper = new ObjectMapper();
 
-  public Score(int exam, String studentID, double score) {
+  public Score(int exam, String studentId, double score) {
     this.exam = exam;
-    this.studentID = studentID;
+    this.studentId = studentId;
     this.score = score;
   }
 
@@ -21,8 +21,8 @@ public final class Score {
     return exam;
   }
 
-  public String getStudentID() {
-    return studentID;
+  public String getstudentId() {
+    return studentId;
   }
 
   public double getScore() {
@@ -30,7 +30,7 @@ public final class Score {
   }
 
   public String toJsonString() throws JsonProcessingException {
-    if(null == studentID)
+    if(null == studentId)
       return "{}";
 
     return mapper.writeValueAsString(this);
@@ -38,11 +38,11 @@ public final class Score {
 
   public JSONObject toJsonObject(){
     JSONObject jo = new JSONObject();
-    if(null == this.studentID)
+    if(null == this.studentId)
       return  jo;
 
     jo.put(Constants.EXAM, this.exam);
-    jo.put(Constants.STUDENT_ID, this.studentID);
+    jo.put(Constants.STUDENT_ID, this.studentId);
     jo.put(Constants.SCORE, this.score);
     return jo;
   }

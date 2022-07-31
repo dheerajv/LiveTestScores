@@ -48,28 +48,28 @@ public class ScoreCollection {
     return examResultsMap.keySet();
   }
 
-  private List<Score> getStudentResults(String studentID){
+  public List<Score> getStudentResults(String studentID){
     if(!studentResultsMap.containsKey(studentID))
       return null;
 
     return studentResultsMap.get(studentID).getScoreList();
   }
 
-  private double getStudentAvgScore(String studentID){
+  public double getStudentAvgScore(String studentID){
     if(!studentResultsMap.containsKey(studentID))
       return 0.0;
 
     return studentResultsMap.get(studentID).getAvg();
   }
 
-  private List<Score> getExamResults(int exam){
+  public List<Score> getExamResults(int exam){
     if(!examResultsMap.containsKey(exam))
       return null;
 
     return examResultsMap.get(exam).getScoreList();
   }
 
-  private double getExamAvgScore(int exam){
+  public double getExamAvgScore(int exam){
     if(!examResultsMap.containsKey(exam))
       return 0.0;
 

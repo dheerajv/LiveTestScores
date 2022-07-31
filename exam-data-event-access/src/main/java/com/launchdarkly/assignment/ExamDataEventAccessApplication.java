@@ -7,11 +7,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ExamDataEventAccessApplication {
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main(String[] args)  {
     SpringApplication.run(ExamDataEventAccessApplication.class, args);
-
-    DataFetcher df = new DataFetcher();
-    df.subscribeAndFetch();
+    initialize();
   }
 
+  private static void initialize() {
+    try {
+      DataFetcher df = new DataFetcher();
+      df.subscribeAndFetch();
+
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      e.printStackTrace();
+    }
+  }
 }

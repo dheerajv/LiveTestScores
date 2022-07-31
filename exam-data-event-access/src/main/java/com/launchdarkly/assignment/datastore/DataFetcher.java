@@ -1,8 +1,6 @@
 package com.launchdarkly.assignment.datastore;
 
 import com.launchdarkly.assignment.common.Constants;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -43,7 +41,6 @@ public final class DataFetcher {
 
   public void unsubscribe(){
     subscription.dispose();
-    //TODO?
   }
 
 }

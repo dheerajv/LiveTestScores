@@ -1,7 +1,7 @@
 package com.launchdarkly.assignment.datastore;
 
-import org.apache.commons.lang3.tuple.MutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+import com.launchdarkly.assignment.response.ExamResults;
+import com.launchdarkly.assignment.response.StudentTestResults;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,8 +12,8 @@ import java.util.Set;
 //lets make it singleton
 public class ScoreCollection {
   private final int MAX_ROWS = 1000;
-  private final Map<String, Results> studentResultsMap = new HashMap<>();
-  private final Map<Integer, Results> examResultsMap = new HashMap<>();
+  private final Map<String, StudentTestResults> studentResultsMap = new HashMap<>();
+  private final Map<Integer, ExamResults> examResultsMap = new HashMap<>();
 
   private static ScoreCollection scoreCollection = null;
   private ScoreCollection(){
@@ -48,44 +48,43 @@ public class ScoreCollection {
     return examResultsMap.keySet();
   }
 
-  public List<Score> getStudentResults(String studentId){
+  public StudentTestResults getStudentResults(String studentId){
     if(!studentResultsMap.containsKey(studentId))
       return null;
 
-    return studentResultsMap.get(studentId).getScoreList();
+    return studentResultsMap.get(studentId);
   }
 
   public double getStudentAvgScore(String studentId){
     if(!studentResultsMap.containsKey(studentId))
       return 0.0;
 
-    return studentResultsMap.get(studentId).getAvg();
+    return studentResultsMap.get(studentId).getAvgScore();
   }
 
-  public List<Score> getExamResults(int exam){
+  public ExamResults getExamResults(int exam){
     if(!examResultsMap.containsKey(exam))
       return null;
 
-    return examResultsMap.get(exam).getScoreList();
+    return examResultsMap.get(exam);
   }
 
   public double getExamAvgScore(int exam){
     if(!examResultsMap.containsKey(exam))
       return 0.0;
 
-    return examResultsMap.get(exam).getAvg();
+    return examResultsMap.get(exam).getAvgScore();
   }
 
   private void populateStudentMap(Score score){
-    String studentId = score.getstudentId();
+    String studentId = score.getStudentId();
     if(studentResultsMap.containsKey(studentId)){
-      var studentResults = studentResultsMap.get(studentId);
+      StudentTestResults studentResults = studentResultsMap.get(studentId);
       studentResults.add(score);
 
     } else{
-      Results results = new Results();
-      results.add(score);
-      studentResultsMap.put(studentId, results);
+      StudentTestResults studentResults = new StudentTestResults(studentId, score);
+      studentResultsMap.put(studentId, studentResults);
     }
   }
 
@@ -96,13 +95,12 @@ public class ScoreCollection {
       examResults.add(score);
 
     } else{
-      Results results = new Results();
-      results.add(score);
-      examResultsMap.put(exam, results);
+      ExamResults examResults = new ExamResults(exam, score);
+      examResultsMap.put(exam, examResults);
     }
   }
 
-  private static class Results{
+  /*private static class Results{
     private final List<Score> scoreList = new ArrayList<>();
     private double sum = 0.0;
 
@@ -122,5 +120,5 @@ public class ScoreCollection {
     private double getAvg(){
       return sum/scoreList.size();
     }
-  }
+  }*/
 }

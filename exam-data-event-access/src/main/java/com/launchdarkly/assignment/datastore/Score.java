@@ -1,9 +1,6 @@
 package com.launchdarkly.assignment.datastore;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.launchdarkly.assignment.common.Constants;
-import org.json.JSONObject;
 
 public final class Score {
   private final int exam;
@@ -21,7 +18,7 @@ public final class Score {
     return exam;
   }
 
-  public String getstudentId() {
+  public String getStudentId() {
     return studentId;
   }
 
@@ -29,21 +26,4 @@ public final class Score {
     return score;
   }
 
-  public String toJsonString() throws JsonProcessingException {
-    if(null == studentId)
-      return "{}";
-
-    return mapper.writeValueAsString(this);
-  }
-
-  public JSONObject toJsonObject(){
-    JSONObject jo = new JSONObject();
-    if(null == this.studentId)
-      return  jo;
-
-    jo.put(Constants.EXAM, this.exam);
-    jo.put(Constants.STUDENT_ID, this.studentId);
-    jo.put(Constants.SCORE, this.score);
-    return jo;
-  }
 }

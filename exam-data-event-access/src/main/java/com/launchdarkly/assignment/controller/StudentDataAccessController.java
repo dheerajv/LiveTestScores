@@ -9,6 +9,8 @@ import com.google.gson.JsonParser;
 import com.launchdarkly.assignment.common.Constants;
 import com.launchdarkly.assignment.datastore.Score;
 import com.launchdarkly.assignment.datastore.ScoreCollection;
+import com.launchdarkly.assignment.response.StudentTestResults;
+import com.launchdarkly.assignment.response.Students;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 public class StudentDataAccessController {
@@ -30,14 +33,8 @@ public class StudentDataAccessController {
   }
 
   @RequestMapping("/students")
-  public String students(){
-    JSONArray ja = new JSONArray();
-    for(String student: scoreCollection.getAllStudents())
-      ja.put(student);
-
-    Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    JsonElement je = JsonParser.parseString(ja.toString());
-    return gson.toJson(je);
+  public Set<String> students(){
+    return new Students(scoreCollection.getAllStudents()).getStudents();
   }
 
   @RequestMapping("/exams")
@@ -53,9 +50,12 @@ public class StudentDataAccessController {
   }
 
   @GetMapping(path="/students/{studentId}")
-  public String studentResults(@PathVariable String studentId) throws JsonProcessingException {
+  public StudentTestResults studentResults(@PathVariable String studentId) throws JsonProcessingException {
 
-    if(null == studentId)
+    return scoreCollection.getStudentResults(studentId);
+
+
+    /*if(null == studentId)
       return new JSONObject().put("Error","Provide a valid studentId").toString();
 
     List<Score> studentResults = scoreCollection.getStudentResults(studentId);
@@ -75,6 +75,6 @@ public class StudentDataAccessController {
     // pretty print
     String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(resultsJO);
 
-    return json;
+    return json;*/
   }
 }

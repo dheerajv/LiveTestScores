@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.launchdarkly</groupId>
     <artifactId>exam-data-event-access</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>exam-data-event-access</name>
     <description>exam-data-event-access</description>
     <properties>
@@ -68,7 +68,9 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
         </plugins>
     </build>
+
 
 </project>

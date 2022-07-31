@@ -21,6 +21,13 @@ public class DataProcessingTask implements Runnable{
   @Override
   public void run() {
     while (true){
+      try {
+        Thread.sleep(10); //Give time to fill the queue
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        e.printStackTrace();
+      }
+
       if(!dataQueue.isEmpty())
         createScore(dataQueue.poll());
     }

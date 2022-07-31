@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class StudentDataAccessControllerAdvice {
+public class GlobalControllerAdvice {
 
-  @ExceptionHandler(RestResponseError.class)
-  public ResponseEntity<?> handleInvalidInput(RestResponseError exception){
+  @ExceptionHandler(RestResponseException.class)
+  public ResponseEntity<?> handleInvalidInput(RestResponseException exception){
     GenericError error = new GenericError(exception.getErrorCode(), exception.getErrorMessage());
     return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
   }

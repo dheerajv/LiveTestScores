@@ -1,4 +1,4 @@
-package com.launchdarkly.assignment.response;
+package com.launchdarkly.assignment.response.types;
 
 import java.util.Set;
 

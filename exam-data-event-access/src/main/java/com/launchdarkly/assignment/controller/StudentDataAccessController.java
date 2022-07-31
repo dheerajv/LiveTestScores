@@ -1,57 +1,55 @@
 package com.launchdarkly.assignment.controller;
 
-import com.launchdarkly.assignment.datastore.ScoreCollection;
-import com.launchdarkly.assignment.error.handler.RestResponseError;
-import com.launchdarkly.assignment.response.ExamResults;
-import com.launchdarkly.assignment.response.Exams;
-import com.launchdarkly.assignment.response.StudentTestResults;
-import com.launchdarkly.assignment.response.Students;
+import com.launchdarkly.assignment.datastore.TestScoreEventDataCollection;
+import com.launchdarkly.assignment.error.handler.RestResponseException;
+import com.launchdarkly.assignment.operations.TestScoreOperations;
+import com.launchdarkly.assignment.response.types.ExamResults;
+import com.launchdarkly.assignment.response.types.Exams;
+import com.launchdarkly.assignment.response.types.StudentTestResults;
+import com.launchdarkly.assignment.response.types.Students;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Set;
 
 @RestController
 public class StudentDataAccessController {
 
-  private final ScoreCollection scoreCollection = ScoreCollection.getInstance();
-
+  TestScoreOperations testScoreOperations = new TestScoreOperations();
   @RequestMapping
   public String welcome(){
     return "Welcome to LaunchDarkly assignment page!";
   }
 
   @RequestMapping("/students")
-  public Set<String> students(){
-    return new Students(scoreCollection.getAllStudents()).getStudents();
+  public ResponseEntity<?> students(){
+    return new ResponseEntity<>(testScoreOperations.getStudents(),HttpStatus.OK) ;
   }
 
   @RequestMapping("/exams")
-  public Set<Integer> exams(){
-    return new Exams(scoreCollection.getAllExams()).getExams();
-
+  public ResponseEntity<?> exams(){
+    return new ResponseEntity<>(testScoreOperations.getExams(), HttpStatus.OK) ;
   }
 
   @GetMapping(path="/students/{studentId}")
-  public ResponseEntity<?> studentResults(@PathVariable String studentId) throws RestResponseError {
-    StudentTestResults results = scoreCollection.getStudentResults(studentId);
+  public ResponseEntity<?> studentResults(@PathVariable String studentId) throws RestResponseException {
+    StudentTestResults results = testScoreOperations.getStudentResults(studentId);
     if(null != results)
       return new ResponseEntity<>(results, HttpStatus.OK);
     else
-      throw new RestResponseError(1,"Student ID " + studentId + " not found.");
+      throw new RestResponseException(1,"Student ID " + studentId + " not found.");
   }
 
   @GetMapping(path="/exams/{examNumber}")
-  public ResponseEntity<?> examResults(@PathVariable int examNumber) throws RestResponseError {
-    ExamResults results = scoreCollection.getExamResults(examNumber);
+  public ResponseEntity<?> examResults(@PathVariable int examNumber) throws RestResponseException {
+    ExamResults results = testScoreOperations.getExamResults(examNumber);
     if(null != results)
       return new ResponseEntity<>(results, HttpStatus.OK);
     else
-      throw new RestResponseError(2,"Exam number " + examNumber + " not found.");
+      throw new RestResponseException(2,"Exam number " + examNumber + " not found.");
   }
 }

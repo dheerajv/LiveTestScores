@@ -1,39 +1,39 @@
 package com.launchdarkly.assignment.datastore;
 
-import com.launchdarkly.assignment.response.ExamResults;
-import com.launchdarkly.assignment.response.StudentTestResults;
+import com.launchdarkly.assignment.response.types.ExamResults;
+import com.launchdarkly.assignment.response.types.StudentTestResults;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 //lets make it singleton
-public class ScoreCollection {
+public class TestScoreEventDataCollection {
   private static final int MAX_ROWS = 1000;
   private final Map<String, StudentTestResults> studentResultsMap = new HashMap<>();
   private final Map<Integer, ExamResults> examResultsMap = new HashMap<>();
 
-  private static ScoreCollection scoreCollection = null;
-  private ScoreCollection(){
+  private static TestScoreEventDataCollection scoreCollection = null;
+  private TestScoreEventDataCollection(){
   }
 
-  public static ScoreCollection getInstance(){
+  public static TestScoreEventDataCollection getInstance(){
     if(null == scoreCollection)
-      scoreCollection = new ScoreCollection();
+      scoreCollection = new TestScoreEventDataCollection();
 
     return scoreCollection;
   }
 
-  public boolean add(Score score){
+  public boolean add(TestScoreEventData testScoreEventData){
 
     if(studentResultsMap.size() == MAX_ROWS)
       return false;
 
-    if(null == score)
+    if(null == testScoreEventData)
       return true;
 
-    populateExamMap(score);
-    populateStudentMap(score);
+    populateExamMap(testScoreEventData);
+    populateStudentMap(testScoreEventData);
 
     return true;
   }
@@ -60,26 +60,26 @@ public class ScoreCollection {
     return examResultsMap.get(exam);
   }
 
-  private void populateStudentMap(Score score){
-    String studentId = score.getStudentId();
+  private void populateStudentMap(TestScoreEventData testScoreEventData){
+    String studentId = testScoreEventData.getStudentId();
     if(studentResultsMap.containsKey(studentId)){
       StudentTestResults studentResults = studentResultsMap.get(studentId);
-      studentResults.add(score);
+      studentResults.add(testScoreEventData);
 
     } else{
-      StudentTestResults studentResults = new StudentTestResults(studentId, score);
+      StudentTestResults studentResults = new StudentTestResults(studentId, testScoreEventData);
       studentResultsMap.put(studentId, studentResults);
     }
   }
 
-  private void populateExamMap(Score score){
-    int exam = score.getExam();
+  private void populateExamMap(TestScoreEventData testScoreEventData){
+    int exam = testScoreEventData.getExam();
     if(examResultsMap.containsKey(exam)){
       var examResults = examResultsMap.get(exam);
-      examResults.add(score);
+      examResults.add(testScoreEventData);
 
     } else{
-      ExamResults examResults = new ExamResults(exam, score);
+      ExamResults examResults = new ExamResults(exam, testScoreEventData);
       examResultsMap.put(exam, examResults);
     }
   }

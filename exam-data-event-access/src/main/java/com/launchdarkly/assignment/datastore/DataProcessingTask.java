@@ -9,7 +9,7 @@ import java.util.Queue;
 public class DataProcessingTask implements Runnable{
 
   private final Queue<ServerSentEvent<String>> dataQueue;
-  private final ScoreCollection scoreCollection = ScoreCollection.getInstance();
+  private final TestScoreEventDataCollection scoreCollection = TestScoreEventDataCollection.getInstance();
   private final DataFetcher dataFetcher;
 
   public DataProcessingTask(DataFetcher dataFetcher,
@@ -43,10 +43,8 @@ public class DataProcessingTask implements Runnable{
       String studentId = data.getString(Constants.STUDENT_ID);
       double score = data.getDouble(Constants.SCORE);
 
-      if(!scoreCollection.add(new Score(exam, studentId, score))){
+      if(!scoreCollection.add(new TestScoreEventData(exam, studentId, score))){
         dataFetcher.unsubscribe();
-        System.out.println("All Students = " + scoreCollection.getAllStudents());
-        System.out.println("All Exams = " + scoreCollection.getAllExams());
       }
 
     } catch (Exception e) {

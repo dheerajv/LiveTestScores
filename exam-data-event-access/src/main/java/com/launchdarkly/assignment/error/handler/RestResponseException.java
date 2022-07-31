@@ -1,10 +1,10 @@
 package com.launchdarkly.assignment.error.handler;
 
-public class RestResponseError extends Exception{
+public class RestResponseException extends Exception{
   private final int errorCode;
   private final String errorMessage;
 
-  public RestResponseError(int errorCode, String errorMessage) {
+  public RestResponseException(int errorCode, String errorMessage) {
     this.errorCode = errorCode;
     this.errorMessage = errorMessage;
   }

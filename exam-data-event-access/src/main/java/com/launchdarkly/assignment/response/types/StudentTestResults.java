@@ -1,6 +1,6 @@
-package com.launchdarkly.assignment.response;
+package com.launchdarkly.assignment.response.types;
 
-import com.launchdarkly.assignment.datastore.Score;
+import com.launchdarkly.assignment.datastore.TestScoreEventData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +15,15 @@ public class StudentTestResults {
     this.examScores = examScores;
   }
 
-  public StudentTestResults(String studentId, Score score) {
+  public StudentTestResults(String studentId, TestScoreEventData testScoreEventData) {
     this.studentId = studentId;
     examScores = new ArrayList<>();
-    examScores.add(new ExamScore(score.getExam(), score.getScore()));
+    examScores.add(new ExamScore(testScoreEventData.getExam(), testScoreEventData.getScore()));
   }
 
-  public void add(Score score) {
-    examScores.add(new ExamScore(score.getExam(), score.getScore()));
-    sum += score.getScore();
+  public void add(TestScoreEventData testScoreEventData) {
+    examScores.add(new ExamScore(testScoreEventData.getExam(), testScoreEventData.getScore()));
+    sum += testScoreEventData.getScore();
   }
 
   public String getStudentId() {
